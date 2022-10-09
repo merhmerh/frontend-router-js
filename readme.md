@@ -10,7 +10,7 @@ A Vanilla JS frontend router.
 ## Installation
 
 ```node
-npm i frontend-router.js
+npm i frontend-router-js
 ```
 
 ## Usage
