@@ -1,7 +1,11 @@
 {
   "name": "frontend-router-js",
   "version": "1.0.1",
-  "description": "",
+  "description": "vanilla js frontend router",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/merhmerh/frontend-router-js"
+  },
   "main": "frontend-router",
   "scripts": {
     "dev": "frontend-router.js",
