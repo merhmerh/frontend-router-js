@@ -1,0 +1,14 @@
+{
+  "name": "frontend-router-js",
+  "version": "1.0.1",
+  "description": "",
+  "main": "frontend-router",
+  "scripts": {
+    "dev": "frontend-router.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "version": "npm version patch"
+  },
+  "keywords": [],
+  "author": "merhmerh",
+  "license": "ISC"
+}
