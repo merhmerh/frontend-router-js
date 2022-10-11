@@ -2,6 +2,7 @@ const router = {}
 
 let route
 let n = 0
+let success = false
 
 /**
  * @param {string} url - url string
@@ -15,18 +16,20 @@ router.get = (url, callback) => {
 
     const regexString = `^${r_url}`
     const regex = new RegExp(regexString)
-
-    if (!regex.test(r_url)) {
-        return
-    }
-
     const url_path = url.replace(/\/\*/, '').replace(/\?(.*)/, '')
 
-    if (location.pathname !== url_path) {
-        return
+    if (!regex.test(r_url) || location.pathname !== url_path) {
+        success = false
+    } else {
+        success = true
     }
 
     //run code
+    if (!success) {
+        return
+    }
+
+    success = true
     n++
 
     const request = {
@@ -58,13 +61,19 @@ router.get = (url, callback) => {
             const anchor = document.getElementById(anchorString);
             if (anchor) {
                 anchor.scrollIntoView();
-                console.log('end');
             }
         }
     }
 
     callback(request, response)
+}
 
+router.catch = (callback) => {
+    if (success) {
+        return
+    }
+    console.log('could not find route');
+    callback()
 }
 
 router.init = (routes, options) => {
@@ -90,11 +99,17 @@ router.init = (routes, options) => {
     route()
 
     window.onpopstate = (e) => {
-        route()
+        console.log(e.state);
+        //route()
     };
-    console.log('ok');
+
+    console.log('router init complete');
 }
 
+router.rerun = () => {
+    n = 0
+    route()
+}
 
 function clickEvent(a) {
     a.addEventListener('click', (e) => {
@@ -110,33 +125,27 @@ function clickEvent(a) {
         }
 
         if (target_url.pathname == window.location.pathname) { //same path
-            console.log('???');
             e.preventDefault()
             if (target_url.hash.substring(1)) {
                 const anchorString = target_url.hash.substring(1)
                 const anchor = document.getElementById(anchorString);
                 if (anchor) {
                     anchor.scrollIntoView();
-                    console.log('end');
                 }
                 return
             }
-
-            console.log('reload', target_url.pathname, window.location.pathname);
-            //window.location.reload()
+            // console.log('reload', target_url.pathname, window.location.pathname);
+            window.location.reload()
         }
-
-        console.log('switch');
-        window.history.pushState('', '', a.href)
+        window.history.pushState({ url: a.href }, '', a.href)
         route()
     })
 }
 
 router.redirect = (e) => {
-    console.log('!!');
     e = e || window.e
     e.preventDefault()
-    window.history.pushState('', '', e.target.href)
+    window.history.pushState({ url: e.target.href }, '', e.target.href)
     route()
 }
 
