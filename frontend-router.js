@@ -88,11 +88,11 @@ router.init = (routes, options) => {
 
     if (options.container) {
         options.container.querySelectorAll('a').forEach(a => {
-            clickEvent(a)
+            clickEvent(a, options)
         })
     } else {
         document.querySelectorAll('a').forEach(a => {
-            clickEvent(a)
+            clickEvent(a, options)
         })
     }
 
@@ -111,7 +111,7 @@ router.rerun = () => {
     route()
 }
 
-function clickEvent(a) {
+function clickEvent(a, options) {
     a.addEventListener('click', (e) => {
         e.preventDefault()
 
@@ -135,7 +135,15 @@ function clickEvent(a) {
                 return
             }
             // console.log('reload', target_url.pathname, window.location.pathname);
-            window.location.reload()
+
+            if (options.self_click == 'refresh') {
+                window.location.reload()
+            } else if (options.self_click == 'rerun') {
+                return route()
+            } else {
+                return
+            }
+            //check options for click-same-link reload
         }
         window.history.pushState({ url: a.href }, '', a.href)
         route()
