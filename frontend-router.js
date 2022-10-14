@@ -22,7 +22,7 @@ router.get = (url, callback) => {
     if (!regex.test(r_url) || location.pathname !== url_path) {
         success = false
         return
-    } 
+    }
 
     n++
 
@@ -144,11 +144,16 @@ function clickEvent(a, options) {
     })
 }
 
-router.redirect = (e) => {
-    e = e || window.e
-    e.preventDefault()
-    window.history.pushState({ url: e.target.href }, '', e.target.href)
+router.redirect = (url) => {
+    window.history.pushState('', '', url)
     route()
 }
+
+// router.redirect = (e) => {
+//     e = e || window.e
+//     e.preventDefault()
+//     window.history.pushState('{ url: e.target.href }', '', e.target.href)
+//     route()
+// }
 
 module.exports = router
