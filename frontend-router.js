@@ -18,18 +18,12 @@ router.get = (url, callback) => {
     const regex = new RegExp(regexString)
     const url_path = url.replace(/\/\*/, '').replace(/\?(.*)/, '')
 
+    success = true
     if (!regex.test(r_url) || location.pathname !== url_path) {
         success = false
-    } else {
-        success = true
-    }
-
-    //run code
-    if (!success) {
         return
-    }
+    } 
 
-    success = true
     n++
 
     const request = {
