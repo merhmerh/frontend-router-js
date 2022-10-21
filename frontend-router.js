@@ -93,8 +93,7 @@ router.init = (routes, options) => {
     route()
 
     window.onpopstate = (e) => {
-        console.log(e.state);
-        //route()
+        route()
     };
 
     console.log('router init complete');
@@ -129,6 +128,11 @@ function clickEvent(a, options) {
                 return
             }
             // console.log('reload', target_url.pathname, window.location.pathname);
+
+
+            if (!options) {
+                return
+            }
 
             if (options.self_click == 'refresh') {
                 window.location.reload()
