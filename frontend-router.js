@@ -48,7 +48,11 @@ router.get = (url, callback) => {
             container.insertAdjacentHTML('beforeend', html)
 
             container.querySelectorAll('a').forEach(a => {
-                clickEvent(a)
+                if (a.getAttribute('data-fer-redirect') == 'false') {
+                    //do nothing
+                } else {
+                    clickEvent(a)
+                }
             })
 
             const anchorString = window.location.hash.substring(1)
