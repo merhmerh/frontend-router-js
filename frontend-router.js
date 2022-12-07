@@ -48,8 +48,9 @@ router.get = (url, callback) => {
             container.insertAdjacentHTML('beforeend', html)
 
             container.querySelectorAll('a').forEach(a => {
-                if (a.getAttribute('data-fer-redirect') == 'false') {
+                if (a.getAttribute('data-fer-redirect')) {
                     //do nothing
+                    console.log('do nothing');
                 } else {
                     clickEvent(a)
                 }
@@ -110,16 +111,18 @@ router.rerun = () => {
 
 function clickEvent(a, options) {
     a.addEventListener('click', (e) => {
+        const target_url = new URL(a.href)
+
+        if (target_url.host !== window.location.host) { //target other url
+            return
+        }
+
         e.preventDefault()
 
         if (!a.href) {
             return
         }
 
-        const target_url = new URL(a.href)
-        if (target_url.host !== window.location.host) { //target other url
-            return
-        }
 
         if (target_url.pathname == window.location.pathname) { //same path
             e.preventDefault()
@@ -147,6 +150,8 @@ function clickEvent(a, options) {
             }
             //check options for click-same-link reload
         }
+
+
         window.history.pushState({ url: a.href }, '', a.href)
         route()
     })
